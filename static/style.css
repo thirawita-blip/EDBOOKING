@@ -1,0 +1,391 @@
+/* =====================================================================
+   ED BOOKING · ธีม Liquid Glass (อิฐ #a73b24 · แสด #f37321 · ทอง)
+   แก้สีทั้งเว็บได้ที่ตัวแปรใน :root ด้านล่างที่เดียว
+   ===================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;600;700&family=Prompt:wght@300;400;500;600&display=swap');
+
+:root {
+  --font: "Prompt", system-ui, "Noto Sans Thai", sans-serif;
+  --font-serif: "Noto Serif Thai", "Prompt", Georgia, serif;
+
+  /* สีหลัก */
+  --brick: #a73b24;          /* สีอิฐ */
+  --brick-dark: #7e2a18;
+  --tangerine: #f37321;      /* สีแสด */
+  --espresso: #3a1710;       /* น้ำตาลเข้ม ใช้กับตัวอักษร/พื้นเข้ม */
+  --cream: #fbf1e6;          /* ครีม ใช้เป็นพื้นหลัง */
+  --gold: #c8a04a;           /* ทอง */
+  --gold-light: #efd98f;
+  --gold-deep: #8d6b1f;
+  --gold-grad: linear-gradient(135deg, #f3dc9b 0%, #c8a04a 45%, #8d6b1f 72%, #e6c87a 100%);
+  --brand-grad: linear-gradient(135deg, #a73b24 0%, #d9531a 55%, #f37321 100%);
+
+  /* ชื่อเดิมที่ไฟล์อื่นอ้างถึง */
+  --bg: var(--cream);
+  --card: rgba(255, 250, 244, .62);
+  --text: #2e1a14;
+  --muted: #80645a;
+  --primary: #e0601a;
+  --primary-dark: var(--brick);
+  --border: rgba(167, 59, 36, .18);
+  --ok: #1f8a4c;
+  --ok-dark: #16693a;
+  --danger: #c62828;
+  --radius: 20px;
+
+  --room-t1: #8fd0f5;
+  --room-t1-hover: #2a8fd8;
+  --room-t2: #d9a441;
+  --wing: #f1e6da;
+
+  /* Liquid glass */
+  --glass: rgba(255, 250, 244, .55);
+  --glass-strong: rgba(255, 251, 246, .88);
+  --blur: blur(22px) saturate(175%);
+  --sheen: inset 0 1px 0 rgba(255, 255, 255, .9), inset 0 -1px 0 rgba(167, 59, 36, .10), inset 0 0 22px rgba(255, 255, 255, .28);
+  --shadow: 0 14px 36px rgba(110, 36, 18, .16), 0 2px 6px rgba(110, 36, 18, .08);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font);
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+/* ลูกแก้วสีอยู่หลังกระจก ทำให้เห็นเอฟเฟกต์ความโปร่งใส */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(720px 540px at 6% -8%, rgba(167, 59, 36, .40), transparent 62%),
+    radial-gradient(640px 520px at 100% 6%, rgba(200, 160, 74, .36), transparent 60%),
+    radial-gradient(780px 600px at 92% 106%, rgba(243, 115, 33, .34), transparent 60%),
+    radial-gradient(560px 460px at 0% 100%, rgba(167, 59, 36, .20), transparent 60%);
+}
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url("bg_deco.png") right 2% bottom 0 / min(560px, 44vw) auto no-repeat;
+  opacity: .55;
+}
+@media (max-width: 720px) { body::after { background-size: 70vw auto; opacity: .35; } }
+@media print { body::after { display: none; } }
+body.no-scroll { overflow: hidden; }
+a { color: var(--brick); }
+h1 { font-family: var(--font-serif); font-size: 1.7rem; margin: 0 0 .6rem; color: var(--espresso); font-weight: 700; }
+.muted { color: var(--muted); }
+.container { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ---------- กระจก (ใช้ร่วมกันทุกการ์ด) ---------- */
+.auth-card, .map-wrap, .slip, .cal, .tt, .fp-box, .price-box, .slip-pay {
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  border: 1px solid rgba(255, 255, 255, .6);
+  box-shadow: var(--sheen), var(--shadow);
+}
+
+/* ---------- ขอบทองตามมุม (เฉพาะการ์ดหลัก) ---------- */
+.auth-card, .slip, .modal, .dlg, .map-wrap, .landing-card, .adm-login-card { position: relative; }
+.auth-card::after, .slip::after, .modal::after, .dlg::after, .map-wrap::after,
+.landing-card::after, .adm-login-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: linear-gradient(135deg, #f3dc9b 0%, #c8a04a 10%, transparent 30%, transparent 70%, #c8a04a 90%, #f3dc9b 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+
+/* ---------- แถบด้านบน ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px;
+  padding: 18px 40px; color: #fff;
+  background: linear-gradient(100deg, rgba(88, 26, 14, .86), rgba(167, 59, 36, .80) 60%, rgba(214, 90, 26, .78));
+  -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 8px 28px rgba(88, 26, 14, .28);
+}
+.topbar::after {            /* เส้นทองใต้แถบ */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #c8a04a 15%, #f3dc9b 50%, #c8a04a 85%, transparent);
+}
+.topbar a { color: #fff; text-decoration: none; }
+.brand { display: flex; align-items: center; gap: 22px; }
+.brand-mark { height: 78px; width: auto; display: block; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35)); }
+.brand-text { display: block; padding-left: 22px; border-left: 1px solid rgba(239, 217, 143, .55);
+  font-family: var(--font-serif); font-weight: 600; font-size: 1.25rem; line-height: 1.35; }
+.brand small { display: block; font-family: var(--font); font-weight: 300; font-size: .84rem; opacity: .88; letter-spacing: .02em; }
+@media (max-width: 760px) { .brand-text { display: none; } .brand-mark { height: 54px; } .topbar { padding: 12px 16px; } }
+.topbar nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.topbar nav a { padding: 7px 14px; border-radius: 999px; font-size: .93rem; transition: background .2s; }
+.topbar nav a:hover { background: rgba(255, 255, 255, .16); }
+.who { opacity: .95; font-size: .9rem; padding: 0 8px; }
+.topbar nav a.btn-link { border: 1px solid rgba(239, 217, 143, .75); color: var(--gold-light); }
+.topbar nav a.btn-link:hover { background: rgba(239, 217, 143, .18); }
+
+/* ---------- ข้อความแจ้งเตือน ---------- */
+.flash { padding: 11px 16px; border-radius: 14px; margin-bottom: 10px; font-size: .95rem;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: var(--sheen); }
+.flash.error { background: rgba(253, 232, 232, .78); color: #8f1b1b; border: 1px solid rgba(214, 40, 40, .30); }
+.flash.ok { background: rgba(228, 246, 234, .78); color: #14602f; border: 1px solid rgba(31, 138, 76, .30); }
+
+/* ---------- ปุ่ม ---------- */
+.btn {
+  font-family: var(--font); font-size: 1rem; cursor: pointer;
+  padding: 9px 20px; border-radius: 999px; border: 1px solid rgba(167, 59, 36, .22);
+  background: rgba(255, 255, 255, .6); color: var(--espresso); text-decoration: none; display: inline-block;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 2px 8px rgba(110, 36, 18, .08);
+  transition: background .2s, box-shadow .2s, transform .15s;
+}
+.btn:hover { background: rgba(255, 255, 255, .88); box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(110, 36, 18, .14); }
+.btn:active { transform: translateY(1px); }
+.btn.primary {
+  background: var(--brand-grad); border-color: rgba(239, 217, 143, .7); color: #fff; width: 100%; font-weight: 600;
+  text-shadow: 0 1px 2px rgba(90, 24, 10, .35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 8px 20px rgba(167, 59, 36, .32);
+}
+.btn.primary:hover { filter: brightness(1.07); background: var(--brand-grad); }
+.btn.confirm { border: none; color: #fff; background: rgba(150, 130, 120, .55); width: 100%; font-weight: 600; padding: 13px; border-radius: 16px; box-shadow: none; }
+.btn.confirm:disabled { cursor: not-allowed; }
+.btn.confirm:not(:disabled) {
+  background: linear-gradient(135deg, #2aa75d, #1a7d42);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 8px 18px rgba(31, 138, 76, .32);
+}
+.btn.confirm:not(:disabled):hover { filter: brightness(1.06); }
+
+/* ---------- หน้าล็อกอิน/สมัคร ---------- */
+.auth-card { max-width: 430px; margin: 44px auto; padding: 32px; border-radius: 28px; }
+.auth-card h1 { text-align: center; }
+.auth-card form { display: grid; gap: 14px; margin: 16px 0; }
+label { display: grid; gap: 4px; font-size: .9rem; color: var(--muted); }
+input, select {
+  font-family: var(--font); font-size: 1rem; padding: 11px 14px;
+  border: 1px solid rgba(167, 59, 36, .20); border-radius: 14px;
+  background: rgba(255, 255, 255, .72); color: var(--text);
+  box-shadow: inset 0 1px 3px rgba(110, 36, 18, .08);
+  transition: border-color .2s, box-shadow .2s;
+}
+input:focus, select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200, 160, 74, .35); }
+
+/* ---------- ผังอาคาร ---------- */
+.map-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.floor-tabs { display: flex; width: fit-content; max-width: 100%; gap: 8px; padding: 5px; border-radius: 999px; background: var(--glass);
+  -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  border: 1px solid rgba(255, 255, 255, .6); box-shadow: var(--sheen); }
+.floor-tab {
+  font-family: var(--font); cursor: pointer; padding: 7px 20px; border-radius: 999px;
+  border: 1px solid transparent; background: transparent; font-size: 1rem; color: var(--espresso);
+  transition: background .2s, color .2s;
+}
+.floor-tab:hover { background: rgba(255, 255, 255, .6); }
+.floor-tab.active { background: var(--brand-grad); color: #fff; border-color: rgba(239, 217, 143, .8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 4px 12px rgba(167, 59, 36, .3); }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; margin: 12px 0; font-size: .9rem; }
+.sw { display: inline-block; width: 14px; height: 14px; border-radius: 5px; vertical-align: -2px; margin-right: 4px; }
+.sw-t1 { background: var(--room-t1); }
+.sw-t2 { background: #f26a1b; }
+
+.map-wrap { padding: 12px; border-radius: 26px; }
+#buildingMap { width: 100%; height: auto; display: block; border-radius: 16px; background: #fff; }
+#buildingMap image { pointer-events: none; }
+#buildingMap .hot { cursor: pointer; outline: none; }
+#buildingMap .hot polygon {
+  fill: rgba(255, 255, 255, 0); stroke: rgba(255, 255, 255, 0);
+  stroke-width: 4; stroke-linejoin: round; transition: fill .15s, stroke .15s;
+}
+#buildingMap .hot:hover polygon,
+#buildingMap .hot:focus polygon {
+  fill: rgba(255, 255, 255, .30); stroke: #e6c87a;
+  filter: drop-shadow(0 0 7px rgba(230, 200, 122, .95));
+}
+#buildingMap .hot.orange:hover polygon,
+#buildingMap .hot.orange:focus polygon { fill: rgba(255, 255, 255, .22); }
+
+.map-tip {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  background: rgba(58, 23, 16, .88); color: #fff; padding: 9px 18px; border-radius: 999px;
+  border: 1px solid rgba(239, 217, 143, .6); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  font-size: .9rem; opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.map-tip.show { opacity: 1; }
+
+/* ---------- หน้าต่างจองห้อง ---------- */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(48, 16, 8, .52);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50;
+}
+.modal-backdrop[hidden] { display: none; }
+.modal {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, .7); border-radius: 30px; padding: 28px;
+  width: min(900px, 100%); max-height: 94vh; overflow: auto;
+  box-shadow: var(--sheen), 0 30px 80px rgba(48, 16, 8, .4);
+}
+.modal h2 { margin: 0 0 16px; font-family: var(--font-serif); color: var(--espresso); }
+.modal-close {
+  position: absolute; top: 14px; right: 16px; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(167, 59, 36, .2); background: rgba(255, 255, 255, .7);
+  font-size: 1rem; cursor: pointer; color: var(--muted); z-index: 2;
+}
+.modal-close:hover { background: #fff; color: var(--brick); }
+.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 720px) { .modal-grid { grid-template-columns: 1fr; } .modal { padding: 22px 16px; } }
+
+.cal { border-radius: 20px; padding: 14px; align-self: start; }
+.cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-family: var(--font-serif); }
+.cal-nav button { border: 1px solid rgba(167, 59, 36, .2); background: rgba(255, 255, 255, .75); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; font-size: 1.1rem; color: var(--brick); }
+.cal-nav button:hover { background: #fff; }
+.cal-dow, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 2px; }
+.cal-dow span { font-size: .8rem; color: var(--muted); padding: 4px 0; }
+.cal-day { font-family: var(--font); border: none; background: none; height: 38px; border-radius: 12px; cursor: pointer; font-size: .95rem; color: var(--text); }
+.cal-day:hover:not(:disabled) { background: rgba(243, 115, 33, .16); }
+.cal-day:disabled { color: #c6b3a8; cursor: not-allowed; }
+.cal-day.today { box-shadow: inset 0 0 0 1.5px var(--gold); }
+.cal-day.in-range { background: rgba(243, 115, 33, .20); border-radius: 0; }
+.cal-day.edge { background: var(--brand-grad); color: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(167, 59, 36, .3); }
+.hint { font-size: .8rem; color: var(--muted); margin: 8px 0 0; }
+
+.panel { display: grid; gap: 14px; align-content: start; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: grid; gap: 2px; font-size: .9rem; color: var(--muted); }
+.field b { color: var(--text); font-size: 1.05rem; }
+.lbl { font-size: .85rem; color: var(--muted); }
+
+.stepper { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.step-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--gold);
+  background: rgba(255, 255, 255, .8); color: var(--brick); font-size: 1.3rem; cursor: pointer; line-height: 1;
+}
+.step-btn:hover:not(:disabled) { background: var(--brand-grad); color: #fff; border-color: transparent; }
+.step-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+.price-box { border-radius: 18px; padding: 14px 16px; display: grid; gap: 4px; }
+.price-box div { display: flex; justify-content: space-between; }
+.price-box .total { font-family: var(--font-serif); font-size: 1.25rem; color: var(--brick); border-top: 1px dashed rgba(200, 160, 74, .7); padding-top: 8px; margin-top: 4px; }
+
+.booked ul { margin: 4px 0 0; padding-left: 18px; font-size: .85rem; max-height: 90px; overflow: auto; }
+.error-text { color: var(--danger); margin: 0; font-size: .9rem; }
+
+/* ---------- ใบจองห้อง ---------- */
+.slip-list { display: grid; gap: 8px; }
+.slip-actions { display: flex; gap: 10px; margin: 8px 0 18px; flex-wrap: wrap; }
+.slip { --slip-accent: var(--tangerine); border-radius: 26px; padding: 30px 28px 24px; max-width: 720px; margin: 0 auto; width: 100%; }
+.slip::before {              /* แถบสีสถานะด้านบน */
+  content: ""; position: absolute; top: 0; left: 36px; right: 36px; height: 5px;
+  border-radius: 0 0 8px 8px; background: var(--slip-accent);
+}
+.slip.paid { --slip-accent: var(--ok); }
+.slip.expired, .slip.cancelled { --slip-accent: #9ca3af; opacity: .88; }
+.slip.review { --slip-accent: #f59e0b; }
+.slip.rejected { --slip-accent: var(--danger); }
+.slip-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 1px dashed rgba(200, 160, 74, .75); padding-bottom: 14px; }
+.slip-head h2 { margin: 0; font-family: var(--font-serif); font-size: 1.6rem; color: var(--espresso); }
+.slip-org { color: var(--gold-deep); font-size: .85rem; font-weight: 500; }
+.slip-code { text-align: right; display: grid; gap: 2px; font-size: .85rem; color: var(--muted); }
+.slip-code b { color: var(--text); font-size: 1.05rem; letter-spacing: .5px; }
+.badge { font-style: normal; font-size: .8rem; padding: 3px 12px; border-radius: 999px; justify-self: end; }
+.badge.paid { background: #e4f6ea; color: #166534; }
+.badge.pending { background: #fff1d6; color: #92580c; }
+.badge.expired, .badge.cancelled { background: #eee; color: #555; }
+.badge.review { background: #fff1d6; color: #92580c; }
+.badge.rejected { background: #fde8e8; color: #9b1c1c; }
+
+.slip-body { margin: 14px 0; display: grid; gap: 8px; }
+.slip-body > div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(167, 59, 36, .10); padding-bottom: 6px; }
+.slip-body dt { color: var(--muted); }
+.slip-body dd { margin: 0; font-weight: 500; text-align: right; }
+.slip-total dd { font-family: var(--font-serif); font-size: 1.35rem; color: var(--brick); font-weight: 700; }
+
+.slip-pay { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: center; border-radius: 20px; padding: 16px; background: rgba(243, 115, 33, .08); }
+@media (max-width: 560px) { .slip-pay { grid-template-columns: 1fr; justify-items: center; text-align: center; } }
+.qr-box { width: 200px; height: 200px; padding: 8px; background: #fff; border-radius: 16px; border: 1.5px solid var(--gold); }
+.qr-img { width: 100%; height: 100%; object-fit: contain; background: #fff; border-radius: 8px; }
+.qr-placeholder {
+  display: none; width: 100%; height: 100%; align-items: center; justify-content: center; text-align: center;
+  border: 2px dashed #d4bd8a; border-radius: 8px; color: var(--muted); padding: 10px; background: #fff;
+}
+.pay-info p { margin: 0 0 8px; }
+.countdown-wrap { margin: 8px 0 14px; font-weight: 600; color: var(--danger); }
+.countdown { color: var(--danger); font-size: 1.8rem; font-variant-numeric: tabular-nums; margin-left: 6px; }
+.slip-note { padding: 11px 16px; border-radius: 14px; margin: 0; }
+.slip-note.expired, .slip-note.cancelled { color: #6b7280; background: rgba(243, 244, 246, .85); }
+.slip-note.review { color: #92580c; background: rgba(255, 241, 214, .9); }
+.slip-note.rejected { color: #9b1c1c; background: rgba(253, 232, 232, .9); }
+
+/* ---------- พิมพ์ / บันทึก PDF : ให้ได้ใบเดียว ---------- */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: #fff; }
+  body::before, .slip::before, .slip::after { display: none; }
+  .topbar, .no-print, .flash { display: none !important; }
+  .container { padding: 0; max-width: none; }
+  .slip { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; border: 1px solid #999; border-top: 6px solid var(--slip-accent); max-width: none; box-shadow: none; page-break-inside: avoid; }
+  .pay-btn { display: none; }
+}
+
+/* ---------- หน้าแรก (Landing) ---------- */
+.landing { position: relative; min-height: 100vh; overflow: hidden; color: #fff8ef; background: #2a0f09; }
+.landing-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.landing-overlay {
+  position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column;
+  background:
+    linear-gradient(90deg, rgba(58, 18, 10, .80) 0%, rgba(110, 34, 20, .52) 42%, rgba(58, 18, 10, .12) 100%),
+    linear-gradient(180deg, rgba(58, 18, 10, .35), transparent 30%, transparent 70%, rgba(58, 18, 10, .55));
+}
+.landing-nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 6%; }
+.landing-uni { font-family: var(--font-serif); color: var(--gold-light); letter-spacing: .03em; font-size: .98rem; }
+.landing-nav a {
+  color: rgba(255, 248, 239, .9); text-decoration: none; font-size: .88rem; padding: 7px 18px; border-radius: 999px;
+  border: 1px solid rgba(239, 217, 143, .5); background: rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: background .2s;
+}
+.landing-nav a:hover { background: rgba(255, 255, 255, .18); }
+.landing-stage { flex: 1; display: grid; grid-template-columns: 1fr 1fr ; align-items: center; justify-items: stretch; column-gap: 60px; padding: 12px 7% 40px; }
+.landing-card {
+  width: min(600px, 100%); text-align: left; padding: 40px 44px 38px; border-radius: 44px;
+  background: radial-gradient(120% 140% at 0% 0%, rgba(255, 255, 255, .14), rgba(255, 255, 255, .04) 55%, rgba(255, 255, 255, 0) 100%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%); backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, .14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 24px 60px rgba(30, 8, 4, .30);
+}
+.landing-card::after { opacity: .5; }   /* ขอบทองจางลง ไม่ให้ดูแข็ง */
+.landing-logo { display: block; width: min(460px, 100%); height: auto; margin: 0 0 6px; filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .4)); }
+.gold-rule { display: block; position: relative; width: 170px; height: 1px; margin: 14px 0 18px;
+  background: linear-gradient(90deg, #c8a04a, transparent); }
+.gold-rule::after { content: ""; position: absolute; left: 0; top: -3px; width: 7px; height: 7px;
+  background: var(--gold-grad); transform: rotate(45deg); }
+.landing-sub { font-family: var(--font-serif); font-size: 1.3rem; margin: 0 0 8px; color: #fff; font-weight: 600; }
+.landing-desc { margin: 0 0 26px; max-width: 440px; color: rgba(255, 248, 239, .78); font-weight: 300; }
+.landing-actions { display: flex; gap: 12px; justify-content: flex-start; flex-wrap: wrap; }
+.landing-button {
+  display: inline-block; padding: 13px 32px; border-radius: 999px; text-decoration: none; font-weight: 600;
+  background: var(--gold-grad); color: var(--espresso);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), 0 10px 24px rgba(0, 0, 0, .3); transition: transform .15s, filter .2s;
+}
+.landing-button:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.landing-button.ghost { background: rgba(255, 255, 255, .12); color: #fff; border: 1px solid rgba(239, 217, 143, .65); box-shadow: none; }
+.landing-foot { text-align: left; padding: 0 7% 22px; font-size: .78rem; color: rgba(255, 248, 239, .55); }
+@media (max-width: 760px) {
+  .landing-nav { padding: 18px 5%; }
+  .landing-overlay { background: linear-gradient(180deg, rgba(58, 18, 10, .70), rgba(90, 28, 16, .55) 55%, rgba(58, 18, 10, .80)); }
+  .landing-stage { justify-items: center; padding: 12px 5% 40px; }
+  .landing-card { padding: 28px 22px 26px; border-radius: 32px; text-align: center; }
+  .landing-logo { margin: 0 auto 6px; }
+  .gold-rule { margin: 12px auto 16px; background: linear-gradient(90deg, transparent, #c8a04a, transparent); }
+  .gold-rule::after { left: 50%; margin-left: -3.5px; }
+  .landing-desc { margin: 0 auto 26px; }
+  .landing-actions { justify-content: center; }
+  .landing-foot { text-align: center; padding: 0 5% 22px; }
+}
+
+/* ---------- เผื่อเบราว์เซอร์ที่ไม่รองรับกระจก / ผู้ใช้ลดการเคลื่อนไหว ---------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root { --glass: rgba(255, 250, 244, .92); }
+  .landing-card { background: rgba(90, 30, 16, .75); }
+  .topbar { background: #8a2f1c; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

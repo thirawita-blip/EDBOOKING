@@ -1,0 +1,144 @@
+/* =====================================================================
+   admin.css : ธีมหน้าแอดมิน (ต้องโหลดหลัง style.css)
+   ===================================================================== */
+.adm-body { min-height: 100vh; }
+
+/* ---------- หน้าล็อกอิน ---------- */
+.adm-login-body { display: grid; place-items: center; padding: 20px; }
+.adm-login-card {
+  width: min(430px, 100%); text-align: center; padding: 38px 32px 28px; border-radius: 30px;
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: var(--sheen), 0 24px 60px rgba(110, 36, 18, .22);
+}
+.adm-login-icon {
+  width: 66px; height: 66px; margin: 0 auto 14px; border-radius: 22px;
+  display: grid; place-items: center; color: #fff;
+  background: var(--brand-grad); border: 1.5px solid var(--gold-light);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), 0 10px 22px rgba(167, 59, 36, .38);
+}
+.adm-login-card h1 { margin-bottom: 4px; }
+.adm-login-card .muted { margin: 0 0 18px; font-size: .9rem; }
+.adm-form { display: grid; gap: 14px; text-align: left; margin: 18px 0 6px; }
+.adm-form .btn.primary { padding: 13px; margin-top: 4px; }
+.adm-back { display: inline-block; margin-top: 14px; font-size: .9rem; color: var(--muted); text-decoration: none; }
+.adm-back:hover { color: var(--brick); }
+
+/* ---------- แถบบน ---------- */
+.adm-topbar {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 14px 28px; color: #fff;
+  background: linear-gradient(100deg, rgba(88, 26, 14, .88), rgba(167, 59, 36, .82) 60%, rgba(214, 90, 26, .80));
+  -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 8px 28px rgba(88, 26, 14, .28);
+}
+.adm-topbar::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #c8a04a 15%, #f3dc9b 50%, #c8a04a 85%, transparent);
+}
+.adm-topbar h1 { margin: 0; font-size: 1.3rem; color: #fff; }
+.adm-topbar small { display: block; font-weight: 300; font-size: .78rem; color: var(--gold-light); }
+.adm-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.adm-pill {
+  color: #fff; text-decoration: none; font-size: .9rem; padding: 7px 18px;
+  border: 1px solid rgba(239, 217, 143, .65); border-radius: 999px; transition: background .2s;
+}
+.adm-pill:hover { background: rgba(239, 217, 143, .2); }
+
+.adm-wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+
+/* ---------- การ์ดสรุป ---------- */
+.adm-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 22px; }
+@media (max-width: 1000px) { .adm-stats { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .adm-stats { grid-template-columns: repeat(2, 1fr); } }
+.adm-stat {
+  background: var(--glass); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  border: 1px solid rgba(255, 255, 255, .6); border-radius: 20px; padding: 16px 18px;
+  box-shadow: var(--sheen), var(--shadow); position: relative; overflow: hidden;
+}
+.adm-stat::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 4px 4px 0; background: var(--tangerine); }
+.adm-stat .n { font-family: var(--font-serif); font-size: 1.9rem; font-weight: 700; line-height: 1.15; color: var(--espresso); }
+.adm-stat .l { font-size: .85rem; color: var(--muted); }
+.adm-stat.s-review::before { background: #f59e0b; }
+.adm-stat.s-verify::before { background: #2a8fd8; }
+.adm-stat.s-cancel::before { background: var(--danger); }
+.adm-stat.s-paid::before   { background: var(--ok); }
+.adm-stat.s-money::before  { background: var(--gold-grad); }
+.adm-stat.s-money .n { color: var(--gold-deep); }
+
+/* ---------- ตัวกรอง ---------- */
+.adm-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.adm-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.adm-tab {
+  font-family: var(--font); font-size: .9rem; cursor: pointer; padding: 7px 15px; border-radius: 999px;
+  border: 1px solid rgba(167, 59, 36, .2); background: rgba(255, 255, 255, .6); color: var(--text);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: background .2s;
+}
+.adm-tab:hover { background: rgba(255, 255, 255, .9); }
+.adm-tab.active { background: var(--brand-grad); border-color: rgba(239, 217, 143, .8); color: #fff; box-shadow: 0 4px 12px rgba(167, 59, 36, .3); }
+.adm-tab .c { display: inline-block; min-width: 20px; margin-left: 4px; padding: 0 6px; border-radius: 999px; font-size: .75rem; background: rgba(0, 0, 0, .08); }
+.adm-tab.active .c { background: rgba(255, 255, 255, .3); }
+.adm-search { width: min(290px, 100%); }
+
+/* ---------- การ์ดรายการจอง ---------- */
+.adm-list { display: grid; gap: 14px; }
+.adm-card {
+  --acc: #cbd5e1;
+  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; position: relative;
+  background: var(--glass); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  border: 1px solid rgba(255, 255, 255, .6); border-radius: 22px; padding: 20px 22px 20px 26px;
+  box-shadow: var(--sheen), var(--shadow);
+}
+.adm-card::before { content: ""; position: absolute; left: 0; top: 16px; bottom: 16px; width: 5px; border-radius: 0 5px 5px 0; background: var(--acc); }
+@media (max-width: 720px) { .adm-card { grid-template-columns: 1fr; } }
+.adm-card[hidden] { display: none; }
+.adm-card.st-review    { --acc: #f59e0b; }
+.adm-card.st-verify,
+.adm-card.st-pending   { --acc: #2a8fd8; }
+.adm-card.st-paid      { --acc: var(--ok); }
+.adm-card.st-expired,
+.adm-card.st-cancelled { --acc: #9ca3af; }
+.adm-card.st-rejected  { --acc: var(--danger); }
+
+.adm-card h2 { margin: 0 0 4px; font-family: var(--font-serif); font-size: 1.2rem; color: var(--espresso); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.adm-code { font-size: .82rem; color: var(--gold-deep); letter-spacing: .4px; margin-bottom: 10px; }
+.adm-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 22px; margin: 0; font-size: .92rem; }
+@media (max-width: 560px) { .adm-meta { grid-template-columns: 1fr; } }
+.adm-meta div { display: flex; gap: 8px; }
+.adm-meta dt { color: var(--muted); min-width: 64px; }
+.adm-meta dd { margin: 0; font-weight: 500; word-break: break-word; }
+.adm-price { color: var(--brick); font-weight: 700; }
+
+.adm-note { margin-top: 10px; font-size: .88rem; padding: 9px 13px; border-radius: 12px; background: rgba(243, 244, 246, .8); color: #4b5563; }
+.adm-alert { margin-top: 10px; font-size: .9rem; padding: 9px 13px; border-radius: 12px; background: rgba(253, 232, 232, .85); color: #9b1c1c; border: 1px solid rgba(214, 40, 40, .28); }
+
+/* ---------- ป้ายสถานะ ---------- */
+.adm-badge { font-family: var(--font); font-size: .78rem; font-weight: 500; padding: 3px 12px; border-radius: 999px; }
+.b-verify, .b-pending { background: #dbeeff; color: #14588f; }
+.b-review    { background: #fff1d6; color: #92580c; }
+.b-paid      { background: #e4f6ea; color: #166534; }
+.b-rejected  { background: #fde8e8; color: #9b1c1c; }
+.b-expired, .b-cancelled { background: #eee; color: #555; }
+
+/* ---------- ปุ่มจัดการ ---------- */
+.adm-ops { display: grid; gap: 10px; min-width: 235px; }
+@media (max-width: 720px) { .adm-ops { min-width: 0; } }
+.adm-ops form { display: grid; gap: 8px; margin: 0; }
+.adm-btn {
+  font-family: var(--font); font-size: .95rem; cursor: pointer; padding: 10px 14px;
+  border-radius: 999px; border: none; color: #fff; font-weight: 600; width: 100%; transition: filter .2s;
+}
+.adm-btn.ok { background: linear-gradient(135deg, #2aa75d, #1a7d42); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 6px 14px rgba(31, 138, 76, .28); }
+.adm-btn.ok:hover { filter: brightness(1.07); }
+.adm-btn.danger { background: rgba(255, 255, 255, .8); color: var(--danger); border: 1px solid var(--danger); }
+.adm-btn.danger:hover { background: var(--danger); color: #fff; }
+.adm-btn.warn { background: linear-gradient(135deg, #f7a823, #e08700); box-shadow: 0 6px 14px rgba(224, 135, 0, .28); }
+.adm-btn.warn:hover { filter: brightness(1.06); }
+.adm-ops input { font-size: .9rem; padding: 9px 12px; }
+
+.adm-empty { text-align: center; color: var(--muted); padding: 44px 10px; background: var(--glass); border: 1px dashed rgba(200, 160, 74, .7); border-radius: 22px; }
+.adm-slip { display: flex; gap: 14px; align-items: flex-start; margin-top: 12px; padding: 12px; background: rgba(240, 247, 255, .75); border: 1px solid rgba(42, 143, 216, .28); border-radius: 16px; font-size: .9rem; }
+.adm-slip img { width: 120px; max-height: 160px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); }
+.adm-slip > div { display: grid; gap: 4px; }
