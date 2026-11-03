@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}ประวัติการใช้บริการ{% endblock %}
+{% block content %}
+<h1>ประวัติการใช้บริการ</h1>
+{% if not bookings %}
+  <p class="muted">ยังไม่มีรายการจอง <a href="{{ url_for('index') }}">ไปจองห้อง</a></p>
+{% endif %}
+<div class="slip-list">
+  {% for b in bookings %}
+    {% include "_slip.html" %}
+    <div class="slip-actions no-print">
+      <a class="btn" href="{{ url_for('booking_slip', bid=b.id) }}">เปิดใบจอง / พิมพ์</a>
+    </div>
+  {% if b.status in ['pending', 'verify', 'paid'] and not b.cancel_requested_at %}
+    <form method="POST" class="no-print" action="{{ url_for('request_booking_cancel', bid=b.id) }}">
+        <button type="submit" class="btn"
+                onclick="return confirm('ยืนยันส่งคำขอยกเลิกการจองหรือไม่?')">
+            ขอยกเลิกการจอง
+        </button>
+    </form>
+  {% elif b.cancel_requested_at and b.status in ['pending', 'verify', 'paid'] %}
+    <p class="muted">ส่งคำขอยกเลิกแล้ว — รอแอดมินอนุมัติ</p>
+  {% endif %}
+  {% endfor %}
+</div>
+{% include "_pay_modal.html" %}
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='slip.js') }}"></script>
+{% endblock %}

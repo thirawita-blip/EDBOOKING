@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}เข้าสู่ระบบ{% endblock %}
+{% block content %}
+<!-- # ปรับแต่ง UI : การ์ดเข้าสู่ระบบ -->
+<div class="auth-card">
+  <h1>เข้าสู่ระบบ</h1>
+  <form method="post" autocomplete="on">
+    <label>ชื่อผู้ใช้ หรือ อีเมล
+      <input name="ident" required autofocus>
+    </label>
+    <label>รหัสผ่าน
+      <input type="password" name="password" required>
+    </label>
+    <button class="btn primary" type="submit">เข้าสู่ระบบ</button>
+  </form>
+  <p class="muted"><a href="{{ url_for('forgot') }}">ลืมรหัสผ่าน?</a></p>
+  <p class="muted">ยังไม่มีบัญชี? <a href="{{ url_for('register') }}">สมัครสมาชิก</a></p>
+</div>
+{% endblock %}
