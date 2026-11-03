@@ -1,0 +1,25 @@
+<!-- หน้าต่างอัปโหลดสลิป (include ครั้งเดียวต่อหน้า) -->
+<div class="dlg-backdrop" id="payModal" hidden>
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="payTitle">
+    <button class="modal-close" id="payClose" type="button" aria-label="ปิด">✕</button>
+    <h2 id="payTitle">แจ้งชำระเงิน</h2>
+    <p class="muted" id="payInfo"></p>
+
+    <label>รูปสลิปโอนเงิน (JPG / PNG / WEBP ไม่เกิน 5 MB)
+      <input type="file" id="payFile" accept="image/png,image/jpeg,image/webp">
+    </label>
+    <img id="payPreview" class="pay-preview" alt="ตัวอย่างสลิป" hidden>
+
+    <div class="field-row">
+      <label class="field">วันที่โอน
+        <input type="date" id="payDate">
+      </label>
+      <label class="field">เวลาที่โอน
+        <input type="time" id="payTime">
+      </label>
+    </div>
+
+    <p class="error-text" id="payError" hidden></p>
+    <button class="btn confirm" id="payConfirm" type="button" disabled>ยืนยันส่งสลิป</button>
+  </div>
+</div>

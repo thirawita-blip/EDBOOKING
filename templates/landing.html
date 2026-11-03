@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#a73b24">
+    <title>ED Booking · ระบบจองห้อง คณะศึกษาศาสตร์</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* ---------- พื้นหลัง 3 ชั้น (รูปพื้น -> สีเฟด -> รูปตึก) ---------- */
+        .landing { background: linear-gradient(100deg, #f37321 0%, #d9531a 50%, #a73b24 100%); }
+
+        .landing-bg,
+        .landing-hero {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; pointer-events: none; user-select: none;
+        }
+        .landing-bg   { object-position: center; }
+        .landing-hero { object-position: right bottom; }
+
+        /* ซ้ายเข้มให้ตัวหนังสืออ่านง่าย / ขวาโปร่งให้เห็นตึกชัด */
+        .landing-tint {
+            position: absolute; inset: 0; pointer-events: none;
+            background:
+                linear-gradient(90deg,
+                    rgba(74, 22, 12, .90) 0%,
+                    rgba(122, 40, 20, .68) 34%,
+                    rgba(190, 70, 24, .28) 66%,
+                    rgba(243, 115, 33, 0) 100%),
+                linear-gradient(180deg,
+                    rgba(60, 18, 10, .35) 0%,
+                    rgba(60, 18, 10, 0) 22%,
+                    rgba(60, 18, 10, 0) 70%,
+                    rgba(60, 18, 10, .55) 100%);
+        }
+        .landing-overlay { background: none; }
+
+        /* ---------- แถบบน ---------- */
+        .landing-uni { font-size: 1.05rem; font-weight: 600; letter-spacing: .02em; }
+        .landing-nav a { font-size: .92rem; padding: 8px 20px; background: rgba(40, 12, 6, .35); border-color: rgba(239, 217, 143, .7); }
+        .landing-nav a:hover { background: rgba(40, 12, 6, .6); }
+
+        /* ---------- การ์ดหลัก: กระจกสีน้ำตาลเข้ม แทนสีส้มสดที่กลืนกับพื้น ---------- */
+        .landing-card {
+            width: min(540px, 100%);
+            padding: 34px 44px 40px;
+            border-radius: 36px;
+            background: linear-gradient(160deg, rgba(86, 26, 14, .72), rgba(52, 16, 9, .62));
+            -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+            border: 1px solid rgba(239, 217, 143, .28);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 28px 70px rgba(30, 8, 4, .45);
+            animation: card-in .7s cubic-bezier(.2, .7, .2, 1) both;
+        }
+        .landing-card::after { opacity: .75; }
+
+        /* โลโก้มีพื้นที่ว่างรอบตัว ดึงให้ชิดเนื้อหาขึ้น */
+        .landing-logo { width: min(400px, 100%); margin: -6px 0 -26px -8px; }
+        .gold-rule { width: 120px; margin: 0 0 20px; }
+
+        .landing-sub { font-size: 1.65rem; line-height: 1.35; margin: 0 0 10px; }
+        .landing-desc { font-size: 1.02rem; line-height: 1.75; font-weight: 400; color: rgba(255, 248, 239, .92); max-width: 420px; margin: 0 0 30px; }
+
+        /* ---------- ปุ่ม: ปุ่มหลักทองเด่น / ปุ่มรองขอบทองชัด ---------- */
+        .landing-actions { gap: 14px; }
+        .landing-button { padding: 14px 34px; font-size: 1.02rem; min-width: 150px; text-align: center; }
+        .landing-button.ghost { background: rgba(255, 255, 255, .1); border: 1.5px solid rgba(239, 217, 143, .85); color: #fff; }
+        .landing-button.ghost:hover { background: rgba(255, 255, 255, .2); }
+        .landing-button:focus-visible,
+        .landing-nav a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+        .landing-foot { font-size: .84rem; color: rgba(255, 248, 239, .82); }
+
+        @keyframes card-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .landing-card { animation: none; } }
+
+        /* ---------- มือถือ ---------- */
+        @media (max-width: 760px) {
+            .landing-hero { height: 55%; top: auto; bottom: 0; opacity: .85; }
+            .landing-tint {
+                background: linear-gradient(180deg,
+                    rgba(74, 22, 12, .78) 0%,
+                    rgba(122, 40, 20, .55) 55%,
+                    rgba(74, 22, 12, .85) 100%);
+            }
+            .landing-card { padding: 26px 22px 30px; border-radius: 30px; }
+            .landing-logo { margin: -4px auto -18px; }
+            .landing-sub { font-size: 1.4rem; }
+            .landing-button { flex: 1 1 140px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="landing">
+        <!-- รูปพื้นหลังเต็มจอ: static/bg_full.png -->
+        <img class="landing-bg" src="{{ url_for('static', filename='bg_full.png') }}" alt="">
+
+        <!-- สีเฟดทับพื้นหลัง -->
+        <div class="landing-tint" aria-hidden="true"></div>
+
+        <!-- รูปตึก ชิดล่างขวา: static/promo.png -->
+        <img class="landing-hero" src="{{ url_for('static', filename='promo.png') }}" alt="">
+
+        <div class="landing-overlay">
+            <nav class="landing-nav">
+                <span class="landing-uni">มหาวิทยาลัยขอนแก่น</span>
+                <a href="{{ url_for('admin_login') }}">ผู้ดูแลระบบ</a>
+            </nav>
+
+            <section class="landing-stage">
+                <div class="landing-card">
+                    <img class="landing-logo" src="{{ url_for('static', filename='logo_stack.png') }}" alt="ED Booking">
+                    <i class="gold-rule" aria-hidden="true"></i>
+                    <h1 class="landing-sub">ระบบจองห้อง คณะศึกษาศาสตร์</h1>
+                    <p class="landing-desc">เลือกห้อง เลือกวันและเวลา แล้วติดตามสถานะการจองได้ในที่เดียว</p>
+                    <div class="landing-actions">
+                        <a class="landing-button" href="{{ url_for('login') }}">เข้าสู่ระบบ</a>
+                        <a class="landing-button ghost" href="{{ url_for('register') }}">สมัครสมาชิก</a>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="landing-foot">คณะศึกษาศาสตร์ มหาวิทยาลัยขอนแก่น</footer>
+        </div>
+    </main>
+</body>
+</html>

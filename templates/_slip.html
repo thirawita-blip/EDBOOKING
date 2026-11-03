@@ -1,0 +1,66 @@
+<!-- ใบจองห้อง (ใช้ซ้ำทั้งหน้าใบจองและหน้าประวัติ) -->
+<article class="slip {{ b.status }}" id="slip-{{ b.id }}">
+  <!-- # ปรับแต่ง UI : หัวใบจอง -->
+  <header class="slip-head">
+    <div>
+      <div class="slip-org">คณะศึกษาศาสตร์ มหาวิทยาลัยขอนแก่น</div>
+      <h2>ใบจองห้อง</h2>
+    </div>
+    <div class="slip-code">
+      <span>เลขที่การจอง</span>
+      <b>{{ b.code }}</b>
+      {% if b.status == 'paid' %}<em class="badge paid">ชำระเงินแล้ว</em>
+      {% elif b.status == 'pending' %}<em class="badge pending">รอชำระเงิน</em>
+      {% elif b.status == 'review' %}<em class="badge review">รอแอดมินอนุมัติ</em>
+      {% elif b.status == 'verify' %}<em class="badge verify">รอแอดมินตรวจสลิป</em>
+      {% elif b.status == 'rejected' %}<em class="badge rejected">ไม่อนุมัติ</em>
+      {% elif b.status == 'cancelled' %}<em class="badge cancelled">ยกเลิกแล้ว</em>
+      {% else %}<em class="badge expired">หมดเวลาชำระเงิน</em>{% endif %}
+    </div>
+  </header>
+
+  <dl class="slip-body">
+    <div><dt>ห้อง</dt><dd>{{ b.room }} (ชั้น {{ b.floor }})</dd></div>
+    <div><dt>เริ่มใช้ห้อง</dt><dd>{{ b.start_full_th }}</dd></div>
+    <div><dt>สิ้นสุด</dt><dd>{{ b.end_full_th }}</dd></div>
+    <div><dt>วันที่</dt>
+      <dd>{% if b.same_day %}{{ b.start_th }}{% else %}{{ b.start_th }} ถึง {{ b.end_th }}{% endif %}</dd></div>
+    <div><dt>เวลา</dt><dd>{{ b.time_range }}{% if not b.same_day %} (ทุกวัน){% endif %}</dd></div>
+    <div><dt>รวมเวลา</dt>
+      <dd>{{ b.hours }} ชั่วโมง{% if not b.same_day %} ({{ b.days }} วัน × {{ b.hours_per_day }} ชม.){% endif %}</dd></div>
+    <div class="slip-total"><dt>รวมเป็นเงิน</dt><dd>{{ b.amount }} บาท</dd></div>
+    <div><dt>ผู้จอง</dt><dd>{{ user['full_name'] }}</dd></div>
+    <div><dt>จองเมื่อ</dt><dd>{{ b.created_th }}</dd></div>
+  </dl>
+
+  {% if b.status == 'pending' %}
+  <section class="slip-pay">
+    <div class="qr-box">
+      <!-- # วางรูป QR Code สำหรับชำระเงินที่ไฟล์ static/qr_payment.png (หรือแก้ src ตรงนี้) -->
+      <img class="qr-img" src="/static/qr_payment.png" alt="QR ชำระเงิน"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="qr-placeholder"># ใส่รูป QR Code ตรงนี้</div>
+    </div>
+    <div class="pay-info">
+      <p>สแกน QR Code เพื่อชำระเงิน <b>{{ b.amount }} บาท</b></p>
+      <p>กรุณาชำระภายใน {{ PAY_WINDOW_MIN }} นาที มิฉะนั้นการจองจะถูกยกเลิก</p>
+      {% if b.decision_note %}<p class="slip-note rejected">⚠ {{ b.decision_note }}</p>{% endif %}
+      <!-- # ปรับแต่ง UI : ตัวนับถอยหลัง (สีแดง) -->
+      <div class="countdown-wrap">เหลือเวลา <span class="countdown" data-expires="{{ b.expires_ts }}">--:--</span></div>
+      <button class="btn confirm pay-btn" type="button" data-id="{{ b.id }}" data-code="{{ b.code }}" data-amount="{{ b.amount }}">แจ้งชำระเงินแล้ว</button>
+    </div>
+  </section>
+  {% elif b.status == 'verify' %}
+  <p class="slip-note verify">ส่งสลิปแล้ว รอแอดมินตรวจสอบ
+  {% if b.slip_transfer_th %}(แจ้งโอนเมื่อ {{ b.slip_transfer_th }}){% endif %}</p>
+  <p class="no-print"><a href="{{ url_for('slip_image', bid=b.id) }}" target="_blank">ดูสลิปที่ส่ง</a></p>
+  {% elif b.status == 'review' %}
+  <p class="slip-note review">ส่งคำขอจองแล้ว รอแอดมินอนุมัติ — เมื่ออนุมัติแล้วจะมีเวลา {{ PAY_WINDOW_MIN }} นาทีสำหรับชำระเงิน (ดูสถานะได้ที่หน้า “ประวัติการใช้บริการ”)</p>
+  {% elif b.status == 'rejected' %}
+  <p class="slip-note rejected">คำขอจองนี้ไม่ได้รับการอนุมัติ{% if b.decision_note %} — เหตุผล: {{ b.decision_note }}{% endif %}</p>
+  {% elif b.status == 'cancelled' %}
+  <p class="slip-note cancelled">การจองนี้ถูกยกเลิกแล้ว ห้องถูกปล่อยว่าง{% if b.decision_note %} ({{ b.decision_note }}){% endif %}</p>
+  {% elif b.status == 'expired' %}
+  <p class="slip-note expired">การจองนี้หมดเวลาชำระเงินแล้ว ห้องถูกปล่อยว่าง กรุณาจองใหม่</p>
+  {% endif %}
+</article>

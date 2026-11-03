@@ -1,0 +1,100 @@
+/* =====================================================================
+   extra.css : ฟีเจอร์เพิ่มเติม (ปฏิทิน, ตารางเวลา, ลืมรหัสผ่าน, ปิดห้อง, หน้าต่างโต้ตอบ)
+   ต้องโหลดหลัง style.css
+   ===================================================================== */
+
+.left-col { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.price-box[hidden] { display: none; }
+.ok-text { color: var(--ok); margin: 0; font-size: .9rem; }
+.ok-text[hidden], .error-text[hidden] { display: none; }
+
+/* ---------- เครื่องหมายบนปฏิทิน ---------- */
+.cal-day { position: relative; }
+.cal-day.focus { box-shadow: inset 0 0 0 2px var(--gold); }
+.mk-wrap {
+  position: absolute; top: 3px; left: 0; right: 0;
+  display: flex; flex-direction: column; gap: 1px; pointer-events: none;
+}
+.mk { display: block; font-style: normal; }
+.mk-paid    { background: #d62828; }   /* จองแล้ว */
+.mk-pending { background: #f59e0b; }   /* รอชำระ / รออนุมัติ */
+.mk-block   { background: #4b5563; }   /* แอดมินปิดห้อง */
+.mk-verify  { background: #2a8fd8; }   /* รอตรวจสลิป */
+
+.mk.dot { width: 7px; height: 7px; border-radius: 50%; align-self: flex-end; margin-right: 4px; box-shadow: 0 0 0 1px #fff; }
+.mk.bar { height: 4px; margin: 0 -1px; }
+.mk.bar.bar-start { margin-left: 5px; border-radius: 3px 0 0 3px; }
+.mk.bar.bar-end   { margin-right: 5px; border-radius: 0 3px 3px 0; }
+
+.cal-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; font-size: .78rem; color: var(--muted); align-items: center; }
+.cal-legend .mk { display: inline-block; vertical-align: middle; margin-right: 4px; box-shadow: none; }
+.cal-legend .bar-demo { width: 18px; height: 4px; border-radius: 3px; }
+
+/* ---------- ตารางเวลา ---------- */
+.tt { border-radius: 20px; padding: 14px; }
+.tt-head { margin-bottom: 8px; font-size: .95rem; font-family: var(--font-serif); }
+.tt-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+@media (max-width: 460px) { .tt-grid { grid-template-columns: repeat(4, 1fr); } }
+.tt-slot {
+  text-align: center; font-size: .72rem; padding: 7px 0; border-radius: 9px;
+  background: rgba(234, 247, 239, .85); color: #1f5d37; border: 1px solid rgba(31, 138, 76, .22);
+  font-variant-numeric: tabular-nums;
+}
+.tt-paid  { background: #d62828; border-color: #d62828; color: #fff; }
+.tt-pend  { background: #f59e0b; border-color: #f59e0b; color: #fff; }
+.tt-block { background: #4b5563; border-color: #4b5563; color: #fff; }
+.tt-verify { background: #2a8fd8; border-color: #2a8fd8; color: #fff; }
+.tt-sel   { box-shadow: inset 0 0 0 2px var(--gold), 0 0 0 1px var(--gold); }
+.tt-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 8px; font-size: .75rem; color: var(--muted); }
+.tt-sw { display: inline-block; width: 12px; height: 12px; border-radius: 4px; vertical-align: -2px; margin-right: 3px;
+         background: rgba(234, 247, 239, .9); border: 1px solid rgba(31, 138, 76, .3); }
+.tt-sw.tt-paid  { background: #d62828; border-color: #d62828; }
+.tt-sw.tt-pend  { background: #f59e0b; border-color: #f59e0b; }
+.tt-sw.tt-block { background: #4b5563; border-color: #4b5563; }
+.tt-sw.tt-verify { background: #2a8fd8; border-color: #2a8fd8; }
+.tt-sw.tt-sel   { background: #fff; border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.tt-list { margin: 8px 0 0; padding-left: 18px; font-size: .85rem; }
+
+.mini-btn {
+  font-family: var(--font); font-size: .78rem; cursor: pointer; padding: 2px 12px; border-radius: 999px;
+  border: 1px solid var(--danger); background: rgba(255, 255, 255, .8); color: var(--danger);
+}
+.mini-btn:hover { background: var(--danger); color: #fff; }
+
+/* ---------- ลืมรหัสผ่าน ---------- */
+.auth-card.wide { max-width: 500px; }
+.fp-acct { background: rgba(255, 247, 239, .75); border: 1px solid rgba(200, 160, 74, .45); border-radius: 14px; padding: 11px 15px; font-size: .92rem; }
+.fp-box { border-radius: 20px; padding: 16px 18px; margin-top: 16px; }
+.fp-box h2 { margin: 0 0 2px; font-family: var(--font-serif); font-size: 1.05rem; color: var(--espresso); }
+.fp-box > .muted { margin: 0 0 10px; font-size: .85rem; }
+.fp-box form { margin: 10px 0 0; }
+.btn.secondary { background: rgba(255, 255, 255, .7); border-color: var(--gold); color: var(--brick); width: 100%; font-weight: 500; }
+.btn.secondary:hover { background: #fff; }
+.otp-input { letter-spacing: .4em; font-size: 1.3rem; text-align: center; }
+
+/* ---------- แอดมิน : จัดการห้อง / ผู้ใช้ ---------- */
+.adm-section-title { margin: 0 0 6px; font-family: var(--font-serif); }
+.adm-hint { margin: 0 0 14px; color: var(--muted); font-size: .9rem; }
+
+/* ---------- หน้าต่างโต้ตอบทั่วไป (อัปโหลดสลิป / ยืนยันลบบัญชี) ---------- */
+.dlg-backdrop {
+  position: fixed; inset: 0; background: rgba(48, 16, 8, .52); z-index: 60;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.dlg-backdrop[hidden] { display: none; }
+.dlg {
+  position: relative; background: var(--glass-strong); border-radius: 28px; padding: 26px;
+  -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, .7); box-shadow: var(--sheen), 0 30px 80px rgba(48, 16, 8, .4);
+  width: min(470px, 100%); max-height: 94vh; overflow: auto; display: grid; gap: 12px;
+}
+.dlg h2 { margin: 0; font-family: var(--font-serif); color: var(--espresso); }
+.dlg .muted { margin: 0; }
+.pay-preview { max-width: 100%; max-height: 260px; object-fit: contain; border: 1px solid var(--gold); border-radius: 14px; justify-self: center; }
+.pay-preview[hidden] { display: none; }
+
+/* ---------- สถานะ "รอตรวจสลิป" ฝั่งผู้ใช้ ---------- */
+.slip.verify { --slip-accent: #2a8fd8; }
+.badge.verify { background: #dbeeff; color: #14588f; }
+.slip-note.verify { color: #14588f; background: rgba(219, 238, 255, .9); }

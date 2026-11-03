@@ -1,0 +1,97 @@
+<!-- ================= Modal จองห้อง / (โหมดแอดมิน) ปิดห้อง ================= -->
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button class="modal-close" id="mClose" aria-label="ปิด">✕</button>
+    <h2 id="mTitle">{% if admin_mode %}ปิดห้อง{% else %}จองห้อง{% endif %}</h2>
+ 
+    <div class="modal-grid">
+      <div class="left-col">
+        <!-- # ปรับแต่ง UI : ปฏิทินเลือกวัน -->
+        <div class="cal">
+          <div class="cal-nav">
+            <button type="button" id="calPrev" aria-label="เดือนก่อน">‹</button>
+            <strong id="calTitle"></strong>
+            <button type="button" id="calNext" aria-label="เดือนถัดไป">›</button>
+          </div>
+          <div class="cal-dow"><span>อา</span><span>จ</span><span>อ</span><span>พ</span><span>พฤ</span><span>ศ</span><span>ส</span></div>
+          <div class="cal-grid" id="calGrid"></div>
+          <p class="hint">
+            {% if admin_mode %}คลิกวันเริ่มต้น แล้วคลิกวันสิ้นสุด (คลิกวันเดียว = ปิดวันเดียว){% else %}คลิกวันเริ่มต้น แล้วคลิกวันสิ้นสุด (คลิกวันเดียว = จองวันเดียว){% endif %}
+          </p>
+          <div class="cal-legend">
+            <span><i class="mk dot mk-paid"></i> จองแล้ว</span>
+            <span><i class="mk dot mk-pending"></i> รอชำระ/รออนุมัติ</span>
+            <span><i class="mk dot mk-verify"></i> รอตรวจสลิป</span>
+            <span><i class="mk dot mk-block"></i> ปิดให้บริการ</span>
+            <span><i class="mk bar-demo mk-paid"></i> จองหลายวัน</span>
+          </div>
+        </div>
+ 
+        <!-- # ปรับแต่ง UI : ตารางเวลาของวันที่เลือก -->
+        <div class="tt">
+          <div class="tt-head"><strong>ตารางเวลา</strong> <span class="muted" id="ttDate"></span></div>
+          <div class="tt-grid" id="ttGrid"></div>
+          <div class="tt-legend">
+            <span><i class="tt-sw"></i> ว่าง</span>
+            <span><i class="tt-sw tt-paid"></i> จองแล้ว</span>
+            <span><i class="tt-sw tt-pend"></i> รอชำระ/อนุมัติ</span>
+            <span><i class="tt-sw tt-verify"></i> รอตรวจสลิป</span>
+            <span><i class="tt-sw tt-block"></i> ปิด</span>
+            <span><i class="tt-sw tt-sel"></i> ที่คุณเลือก</span>
+          </div>
+          <ul class="tt-list" id="ttList"></ul>
+        </div>
+      </div>
+ 
+      <div class="panel">
+        <div class="field-row">
+          <div class="field"><span class="lbl">วันเริ่ม</span><b id="sumStart">-</b></div>
+          <div class="field"><span class="lbl">วันสิ้นสุด</span><b id="sumEnd">-</b></div>
+        </div>
+ 
+        <div class="field-row">
+          <label class="field">เวลาเริ่ม
+            <select id="selStart"></select>
+          </label>
+          <label class="field">เวลาสิ้นสุด
+            <select id="selEnd"></select>
+          </label>
+        </div>
+ 
+        {% if admin_mode %}
+        <button type="button" class="btn" id="btnAllDay">เลือกทั้งวัน ({{ "%02d"|format(open_hour) }}:00 - {{ "%02d"|format(close_hour) }}:00)</button>
+        {% endif %}
+ 
+        <!-- # ปรับแต่ง UI : ปุ่ม เพิ่ม/ลด ชั่วโมง -->
+        <div class="stepper">
+          <span class="lbl">ปรับจำนวนชั่วโมงต่อวัน</span>
+          <button type="button" class="step-btn" id="hMinus" aria-label="ลดหนึ่งชั่วโมง">−</button>
+          <b id="hPerDay">1</b> <span>ชม./วัน</span>
+          <button type="button" class="step-btn" id="hPlus" aria-label="เพิ่มหนึ่งชั่วโมง">+</button>
+        </div>
+ 
+        <div class="price-box" {% if admin_mode %}hidden{% endif %}>
+          <div><span>จำนวนวัน</span><b id="sumDays">0</b></div>
+          <div><span>รวมเวลา</span><b><span id="sumHours">0</span> ชั่วโมง</b></div>
+          <div class="total"><span>รวมเป็นเงิน</span><b><span id="sumAmount">0</span> บาท</b></div>
+        </div>
+ 
+        {% if admin_mode %}
+        <label class="field">เหตุผลที่ปิดห้อง (ไม่บังคับ)
+          <input id="mReason" maxlength="200" placeholder="เช่น ซ่อมบำรุง / จัดกิจกรรมคณะ">
+        </label>
+        {% endif %}
+ 
+        <div class="booked">
+          <span class="lbl">{% if admin_mode %}การจอง/การปิดห้องของห้องนี้ (กด "ยกเลิกการปิด" เพื่อเปิดให้จองอีกครั้ง){% else %}ช่วงที่ถูกจองหรือปิดของห้องนี้{% endif %}</span>
+          <ul id="bookedList"><li class="muted">กำลังโหลด...</li></ul>
+        </div>
+ 
+        <p class="error-text" id="mError" hidden></p>
+        <p class="ok-text" id="mOk" hidden></p>
+        <!-- # ปรับแต่ง UI : ปุ่มยืนยัน (เทา = ยังกดไม่ได้, เขียว = กดได้) -->
+        <button type="button" class="btn confirm" id="btnConfirm" disabled>{% if admin_mode %}ปิดห้องในช่วงเวลานี้{% else %}ยืนยันการจอง{% endif %}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}จองห้อง{% endblock %}
+{% block content %}
+<section class="map-section">
+  <div class="map-head">
+    <h1>เลือกห้องที่ต้องการจอง</h1>
+    <!-- # ปรับแต่ง UI : แท็บเลือกชั้น -->
+    <div class="floor-tabs" id="floorTabs">
+      {% for f in floors %}<button type="button" class="floor-tab" data-floor="{{ f }}">ชั้น {{ f }}</button>{% endfor %}
+    </div>
+  </div>
+ 
+  <div class="legend">
+  <span><i class="sw sw-t1"></i> ห้องเรียน (กดเพื่อจอง)</span>
+  <span><i class="sw sw-t2"></i> ห้องส้ม: ลานนันทนาการ / ห้องประชุม / ED TEAL (กดเพื่อจอง)</span>
+  <span class="muted">ห้องสีอื่นไม่เปิดให้จอง</span>
+  <span class="muted">อัตรา {{ PRICE_PER_HOUR }} บาท / ชั่วโมง (ห้องสีส้ม {{ PRICE_ORANGE_PER_HOUR }} บาท / ชั่วโมง)</span>
+</div>
+ 
+  <!-- # ปรับแต่ง UI : ผังอาคาร (วาดด้วย SVG ใน static/app.js) -->
+  <div class="map-wrap">
+    <svg id="buildingMap" viewBox="0 0 1920 1080" role="img" aria-label="ผังอาคาร"></svg>
+    <div class="map-tip" id="mapTip"></div>
+  </div>
+</section>
+ 
+{% include "_room_modal.html" %}
+{% endblock %}
+ 
+{% block scripts %}
+<script>
+  const FLOORS = {{ floors | tojson }};
+  const CONFIG = {
+    pricePerHour: {{ PRICE_PER_HOUR }},
+    priceOrange: {{ PRICE_ORANGE_PER_HOUR }},
+    openHour: {{ open_hour }},
+    closeHour: {{ close_hour }},
+    admin: false,
+    floorImgBase: "{{ url_for('static', filename='floors/') }}"
+  };
+</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

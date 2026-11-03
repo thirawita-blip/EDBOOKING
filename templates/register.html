@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}สมัครสมาชิก{% endblock %}
+{% block content %}
+<!-- # ปรับแต่ง UI : การ์ดสมัครสมาชิก -->
+<div class="auth-card">
+  <h1>สร้างบัญชี</h1>
+  <form method="post">
+    <label>ชื่อผู้ใช้ (อังกฤษ/ตัวเลข/_)
+      <input name="username" value="{{ form.get('username','') }}" required>
+    </label>
+    <label>ชื่อ-นามสกุล
+      <input name="full_name" value="{{ form.get('full_name','') }}" required>
+    </label>
+    <label>อีเมล
+      <input type="email" name="email" value="{{ form.get('email','') }}" required>
+    </label>
+    <label>เบอร์โทร (ไม่บังคับ)
+      <input name="phone" value="{{ form.get('phone','') }}">
+    </label>
+    <label>รหัสผ่าน (อย่างน้อย 6 ตัวอักษร)
+      <input type="password" name="password" required minlength="6">
+    </label>
+    <label>ยืนยันรหัสผ่าน
+      <input type="password" name="password2" required minlength="6">
+    </label>
+    <button class="btn primary" type="submit">สมัครสมาชิก</button>
+  </form>
+  <p class="muted">มีบัญชีแล้ว? <a href="{{ url_for('login') }}">เข้าสู่ระบบ</a></p>
+</div>
+{% endblock %}
